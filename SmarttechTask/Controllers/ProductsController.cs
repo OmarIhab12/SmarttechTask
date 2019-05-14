@@ -67,7 +67,7 @@ namespace SmarttechTask.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(/*product*/);
+            return View(product);
         }
 
         // GET: Products/Edit/5
@@ -89,16 +89,24 @@ namespace SmarttechTask.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Photo,Price,LastUpdate")] Product product)
+        public ActionResult Edit(string productString, HttpPostedFileBase photo)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
+                Product editedProduct = JsonConvert.DeserializeObject<Product>(productString);
+                Product product = db.Products.SingleOrDefault(p => p.Id == editedProduct.Id);
+                product.Name = editedProduct.Name;
+                product.Price = editedProduct.Price;
+                if (photo != null)
+                {
+                    product.Photo = new byte[photo.ContentLength];
+                    photo.InputStream.Read(product.Photo, 0, photo.ContentLength);
+                }
+                product.LastUpdate = DateTime.Now;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(product);
+            return View(/*product*/);
         }
 
         // GET: Products/Delete/5
