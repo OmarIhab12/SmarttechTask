@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmarttechTask", "SmarttechTask\SmarttechTask.csproj", "{B11C3BB3-8A61-4AA9-BD63-0A10B82812ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B11C3BB3-8A61-4AA9-BD63-0A10B82812ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B11C3BB3-8A61-4AA9-BD63-0A10B82812ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B11C3BB3-8A61-4AA9-BD63-0A10B82812ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B11C3BB3-8A61-4AA9-BD63-0A10B82812ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5443CA40-5F1B-45FF-9EA0-0C49EE5534D5}
+	EndGlobalSection
+EndGlobal
