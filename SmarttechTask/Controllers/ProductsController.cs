@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using SmarttechTask.Models;
+using Syncfusion.XlsIO;
 
 namespace SmarttechTask.Controllers
 {
@@ -16,10 +19,15 @@ namespace SmarttechTask.Controllers
         private Entities db = new Entities();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                return View(db.Products.Where(p => p.Name.Contains(searchString)).ToList());
+            }
             return View(db.Products.ToList());
         }
+        
 
         // GET: Products/Details/5
         public ActionResult Details(int? id)
@@ -143,5 +151,8 @@ namespace SmarttechTask.Controllers
             }
             base.Dispose(disposing);
         }
+
+        
+
     }
 }

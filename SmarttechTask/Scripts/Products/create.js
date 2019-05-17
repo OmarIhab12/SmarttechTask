@@ -27,10 +27,7 @@ function CreateProduct() {
     if ($.trim($("#Name").val()) == "") {
         $("#Name").siblings(".field-validation-valid").html("The Name field is required.");
     }
-    else if (parseFloat($("#Price").val()) == null) {
-        //$("#Price").siblings(".field-validation-valid").html("The Price should be number");
-    }
-    else {
+    else if (parseFloat($("#Price").val()) != null){
         var product =
         {
             "Name": $("#Name").val(),
@@ -51,6 +48,7 @@ function CreateProduct() {
             data: sendData,
             success: function (result) {
                 alert("Product added successfully!");
+                window.location.href = "/Products/Index";
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(JSON.stringify(xhr) + " " + ajaxOptions + ": " + thrownError);
