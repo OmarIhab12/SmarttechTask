@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using SmarttechTask.Models;
 using Syncfusion.XlsIO;
 
@@ -28,7 +30,50 @@ namespace SmarttechTask.Controllers
             return View(db.Products.ToList());
         }
         
+        public void ExportToExcel()
+        {
+            List<Product> products = db.Products.ToList();
 
+            ExcelPackage pck = new ExcelPackage();
+            ExcelWorksheet ws = pck.Workbook.Worksheets.Add("catalog");
+
+            ws.Cells["A1"].Value = "Name";
+            ws.Cells["B1"].Value = "Photo";
+            ws.Cells["C1"].Value = "Price";
+
+            int rowStart = 3;
+            foreach(var product in products)
+            {
+                //ws.Row(rowStart).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                MemoryStream ms = new MemoryStream(product.Photo);
+                Image image = Image.FromStream(ms);
+
+                ws.Row(rowStart).Height = 100;
+                ws.Column(1).Width = 1000;
+
+                ExcelPicture pic = ws.Drawings.AddPicture(product.Id.ToString(), image);
+                pic.SetPosition(rowStart-1,0, 1,0);
+                
+
+                ws.Cells[string.Format("A{0}", rowStart)].Value = product.Name;
+                //ws.Cells[string.Format("B{0}", rowStart)].Value = 
+                ws.Cells[string.Format("C{0}", rowStart)].Value = product.Price;
+
+                rowStart++;
+            }
+
+            ws.Cells["A:AZ"].AutoFitColumns();
+            //Response.Clear();
+            //Response.ContentType = "applecation/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            //Response.AddHeader("content-disposition", "attachement: filename=" + "ExcelCatalog.xlsx");
+            //Response.BinaryWrite(pck.GetAsByteArray());
+            //Response.End();
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "attachment: filename=" + "Report.xlsx");
+            Response.BinaryWrite(pck.GetAsByteArray());
+            Response.End();
+        }
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {
