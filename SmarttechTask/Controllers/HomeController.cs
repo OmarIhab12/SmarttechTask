@@ -44,16 +44,15 @@ namespace SmarttechTask.Controllers
                 //ws.Row(rowStart).Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                 MemoryStream ms = new MemoryStream(product.Photo);
                 Image image = Image.FromStream(ms);
-
                 ws.Row(rowStart).Height = 100;
                 ws.Column(1).Width = 1000;
 
                 ExcelPicture pic = ws.Drawings.AddPicture(product.Id.ToString(), image);
                 pic.SetPosition(rowStart - 1, 0, 1, 0);
+                pic.SetSize(10, 10);
 
 
                 ws.Cells[string.Format("A{0}", rowStart)].Value = product.Name;
-                //ws.Cells[string.Format("B{0}", rowStart)].Value = 
                 ws.Cells[string.Format("C{0}", rowStart)].Value = product.Price;
 
                 rowStart++;
